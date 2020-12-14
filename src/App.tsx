@@ -7,6 +7,10 @@ import { Layout } from './containers/Layout/Layout';
 
 const LoginPage = React.lazy(() => import('./pages/login/Login'));
 
+const asd: React.FC = () => {
+    return <div>ALO DA?</div>;
+};
+
 const App: React.FC = () => {
     return (
         <ThemeProvider theme={theme}>
@@ -14,9 +18,9 @@ const App: React.FC = () => {
                 <Suspense fallback={'loading..'}>
                     <Router>
                         <Switch>
-                            <Route path='/' component={LoginPage} />
-                            {/* <Route path='/register' component={RegisterPage} />
-                    <Route path='/login' component={LoginPage} /> */}
+                            <Route path='/' exact component={asd} />
+                            {/* <Route path='/register' component={RegisterPage} />*/}
+                            <Route path='/login' component={LoginPage} />
                             <Redirect to='/error' />
                         </Switch>
                     </Router>

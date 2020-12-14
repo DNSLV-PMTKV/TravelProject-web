@@ -1,70 +1,97 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 
+const black = '#333';
+const white = '#f8f5fb';
+
 // Create a theme instance.
 export const theme = createMuiTheme({
-    palette: {
-        primary: {
-            main: '#f00'
-        },
-        secondary: {
-            main: '#0f0'
-        }
-    },
+    palette: {},
     typography: {
-        fontFamily: 'Comic Sans MS',
-        body2: {
-            fontFamily: 'Times New Roman',
-            fontSize: '1.1rem'
+        // fontFamily: 'Quicksand, sans-serif',
+        h2: {
+            color: black,
+            fontSize: '3rem',
+            fontWeight: 900,
+            padding: '0 0 .5rem'
         }
     },
-    shape: {
-        borderRadius: 30
-    },
-    spacing: 8,
     overrides: {
-        MuiFilledInput: {
+        MuiAppBar: {
             root: {
-                backgroundColor: 'green'
+                backdropFilter: 'blur(2px)'
+            },
+            colorPrimary: {
+                backgroundColor: 'transparent',
+                color: black
             }
         },
-        MuiInputLabel: {
+        MuiToolbar: {
             root: {
-                backgroundColor: 'yellow'
+                justifyContent: 'space-between'
+            },
+            gutters: {
+                ['@media (min-width: 600px)']: {
+                    padding: '0 5em'
+                    // margin: 'auto',
+                }
             }
-        },
-        MuiTextField: {
-            root: {}
         },
         MuiButton: {
             root: {
-                textTransform: 'none',
-                padding: '20px'
+                backGroundColor: '#f9c5d1',
+                backgroundImage: 'linear-gradient(120deg, rgba(0,212,255,1) 0%, rgba(249,197,209,1) 60%)',
+                padding: '.75rem',
+                margin: '12px 0'
+            },
+            label: {
+                color: black,
+                fontWeight: 'inherit'
             },
             fullWidth: {
-                maxWidth: '300px'
+                fontWeight: 700
+            }
+        },
+        MuiInputLabel: {
+            outlined: {
+                color: black,
+                fontSize: 18
+            }
+        },
+        MuiTextField: {
+            root: {
+                backgroundColor: 'white',
+                '& label.Mui-focused': {
+                    color: black
+                },
+                '& .MuiInput-underline:after': {
+                    borderBottomColor: 'green'
+                },
+                '& .MuiOutlinedInput-root': {
+                    '&:hover fieldset': {
+                        border: '1px solid rgba(0, 0, 0, 0.23)'
+                    },
+                    '&.Mui-focused fieldset': {
+                        border: '1px solid rgba(0, 0, 0, 0.23)'
+                    }
+                }
             }
         }
     },
     props: {
+        MuiAppBar: {
+            elevation: 0
+        },
         MuiButton: {
             disableRipple: true,
-            variant: 'contained',
-            color: 'primary'
-        },
-        MuiCheckbox: {
-            disableRipple: true
+            variant: 'contained'
         },
         MuiTextField: {
-            variant: 'filled',
+            variant: 'outlined',
             InputLabelProps: {
                 shrink: true
-            }
-        },
-        MuiPaper: {
-            elevation: 12
-        },
-        MuiCard: {
-            elevation: 12
+            },
+            autoComplete: 'off',
+            margin: 'normal'
         }
     }
 });
