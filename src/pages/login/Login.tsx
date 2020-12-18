@@ -1,11 +1,16 @@
 import { Button, Container, Grid, Link, TextField, Typography } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { Dispatch, useReducer, useState } from 'react';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import UserRequests from '../../requests/userRequests';
 import ErrorIcon from '@material-ui/icons/Error';
 
-// interface Props {}
+import { userReducer, InitialState } from '../../redux/users/userReducer';
+import { SET_AUTHENTICATED } from '../../redux/types';
+
+import { withRouter, RouteComponentProps, useHistory } from 'react-router-dom';
+
+import { AppDispatch } from '../../redux/store';
 
 interface Errors {
     email?: string[];
@@ -31,13 +36,18 @@ const useStyles = makeStyles(() =>
     })
 );
 
-const Login: React.FC = () => {
+const Login: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
     const classes = useStyles();
+    const history = useHistory();
+
+    const [state, dispatch] = useReducer(userReducer, InitialState);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const [errors, setErrors] = useState<Errors>();
+
+    console.log('state', state);
 
     const handleSumbit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -45,12 +55,17 @@ const Login: React.FC = () => {
             email: email,
             password: password
         };
+
         UserRequests.login(data)
             .then((response) => {
-                console.log('RESPONSE', response);
+                localStorage.setItem('token', response.data.token);
+                dispatch({
+                    type: SET_AUTHENTICATED,
+                    paylod: true
+                });
+                history.push('/');
             })
             .catch((err) => {
-                console.error('ERROR', err.response.data);
                 setErrors(err.response.data);
             });
     };

@@ -1,7 +1,7 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 
 const black = '#333';
-const white = '#f8f5fb';
+// const white = '#f8f5fb';
 
 // Create a theme instance.
 export const theme = createMuiTheme({

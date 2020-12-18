@@ -1,9 +1,13 @@
 import { combineReducers, Reducer } from 'redux';
 
-// import users from './users/reducer';
+import { UserState, userReducer } from './users/userReducer';
 
-const reducers: Reducer = combineReducers({
-    // users
+export interface ApplicationState {
+    user: UserState;
+}
+
+const reducers: Reducer<ApplicationState> = combineReducers<ApplicationState>({
+    user: userReducer
 });
 
 export default reducers;

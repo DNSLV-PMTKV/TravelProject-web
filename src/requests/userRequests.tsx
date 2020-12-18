@@ -10,7 +10,7 @@ export default class UserRequests {
     static loginEndpoint = `${domain}api/login`;
     static logoutEndpoint = `${domain}api/revoke`;
 
-    static login = (data: LoginInterface): Promise<AxiosPromise> => {
+    static login = (data: LoginInterface): AxiosPromise => {
         return Axios.post(UserRequests.loginEndpoint, data);
     };
 }
