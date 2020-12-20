@@ -1,16 +1,12 @@
 import { Button, Container, Grid, Link, TextField, Typography } from '@material-ui/core';
-import React, { Dispatch, useReducer, useState } from 'react';
+import React, { useState } from 'react';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import UserRequests from '../../requests/userRequests';
 import ErrorIcon from '@material-ui/icons/Error';
-
-import { userReducer, InitialState } from '../../redux/users/userReducer';
-import { SET_AUTHENTICATED } from '../../redux/types';
-
-import { withRouter, RouteComponentProps, useHistory } from 'react-router-dom';
-
-import { AppDispatch } from '../../redux/store';
+import { useHistory } from 'react-router-dom';
+import { setAuthenticated } from '../../redux/users/userActions';
+import { useDispatch } from 'react-redux';
 
 interface Errors {
     email?: string[];
@@ -36,18 +32,15 @@ const useStyles = makeStyles(() =>
     })
 );
 
-const Login: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
+const Login: React.FC = () => {
     const classes = useStyles();
     const history = useHistory();
-
-    const [state, dispatch] = useReducer(userReducer, InitialState);
+    const dispatch = useDispatch();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const [errors, setErrors] = useState<Errors>();
-
-    console.log('state', state);
 
     const handleSumbit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -59,10 +52,9 @@ const Login: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
         UserRequests.login(data)
             .then((response) => {
                 localStorage.setItem('token', response.data.token);
-                dispatch({
-                    type: SET_AUTHENTICATED,
-                    paylod: true
-                });
+                dispatch(setAuthenticated());
+            })
+            .then(() => {
                 history.push('/');
             })
             .catch((err) => {
@@ -119,7 +111,7 @@ const Login: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
                     </Link>
                 </Grid>
                 <Grid item>
-                    <Link href='#' variant='body2' className={classes.links}>
+                    <Link href='/register' variant='body2' className={classes.links}>
                         Sign Up
                     </Link>
                 </Grid>

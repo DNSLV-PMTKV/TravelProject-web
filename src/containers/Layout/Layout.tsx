@@ -6,10 +6,11 @@ import Button from '@material-ui/core/Button';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Link from '@material-ui/core/Link';
 import TelegramIcon from '@material-ui/icons/Telegram';
-import React from 'react';
+import React, { Fragment } from 'react';
 
 interface Props {
     children: JSX.Element;
+    authenticated: boolean;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -20,8 +21,9 @@ const useStyles = makeStyles((theme: Theme) =>
         bar: {
             marginBottom: '5%'
         },
-        menuButton: {
-            marginRight: theme.spacing(0)
+        menuButtons: {},
+        leftButton: {
+            marginRight: '1em'
         },
         title: {
             display: 'flex',
@@ -48,12 +50,31 @@ export const Layout: React.FC<Props> = (props: Props) => {
                             Travel Project
                         </Typography>
                     </Link>
-                    <Link href='/login'>
-                        <Button className={classes.button}>
-                            <AccountCircleIcon style={{ marginRight: '7px' }} />
-                            Login
-                        </Button>
-                    </Link>
+                    <div className={classes.menuButtons}>
+                        {props.authenticated ? (
+                            <Link href='/account'>
+                                <Button className={classes.button}>
+                                    <AccountCircleIcon style={{ marginRight: '7px' }} />
+                                    Account
+                                </Button>
+                            </Link>
+                        ) : (
+                            <Fragment>
+                                <Link href='/login' className={classes.leftButton}>
+                                    <Button className={classes.button}>
+                                        <AccountCircleIcon style={{ marginRight: '7px' }} />
+                                        Login
+                                    </Button>
+                                </Link>
+                                <Link href='/register'>
+                                    <Button className={classes.button}>
+                                        <AccountCircleIcon style={{ marginRight: '7px' }} />
+                                        Register
+                                    </Button>
+                                </Link>
+                            </Fragment>
+                        )}
+                    </div>
                 </Toolbar>
             </AppBar>
             {props.children}
