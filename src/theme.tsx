@@ -75,6 +75,11 @@ export const theme = createMuiTheme({
                     }
                 }
             }
+        },
+        MuiSvgIcon: {
+            root: {
+                marginRight: '7px'
+            }
         }
     },
     props: {

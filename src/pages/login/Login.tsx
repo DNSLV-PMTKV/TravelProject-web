@@ -75,7 +75,7 @@ const Login: React.FC = () => {
     };
 
     return (
-        <Container component='div' maxWidth='xs'>
+        <Container component='div' maxWidth='sm'>
             <Typography variant='h2' align='center'>
                 Log in.
             </Typography>
@@ -112,7 +112,7 @@ const Login: React.FC = () => {
                 </Grid>
                 <Grid item>
                     <Link href='/register' variant='body2' className={classes.links}>
-                        Sign Up
+                        Don&apos;t have account? Register
                     </Link>
                 </Grid>
             </Grid>
