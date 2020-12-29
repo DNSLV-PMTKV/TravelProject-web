@@ -1,7 +1,11 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 
-const black = '#333';
+export const black = '#303030';
 // const white = '#f8f5fb';
+
+export const mobileBreak = 650;
+
+const defaultTheme = createMuiTheme();
 
 // Create a theme instance.
 export const theme = createMuiTheme({
@@ -12,7 +16,7 @@ export const theme = createMuiTheme({
             color: black,
             fontSize: '3rem',
             fontWeight: 900,
-            padding: '0 0 .5rem'
+            padding: '0 0 1rem'
         }
     },
     overrides: {
@@ -80,6 +84,21 @@ export const theme = createMuiTheme({
             root: {
                 marginRight: '7px'
             }
+        },
+        MuiFormControl: {
+            marginNormal: {
+                [defaultTheme.breakpoints.down(mobileBreak)]: {
+                    marginTop: '8px'
+                }
+            }
+        },
+        MuiBottomNavigationAction: {
+            root: {
+                color: `${black} !important`,
+                '&$selected': {
+                    color: '#3f51b5 !important'
+                }
+            }
         }
     },
     props: {
@@ -97,6 +116,11 @@ export const theme = createMuiTheme({
             },
             autoComplete: 'off',
             margin: 'normal'
+        },
+        MuiBottomNavigationAction: {
+            disableRipple: true,
+            disableTouchRipple: true,
+            focusRipple: false
         }
     }
 });

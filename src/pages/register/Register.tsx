@@ -49,7 +49,7 @@ const Register: React.FC = () => {
 
     const [errors, setErrors] = useState<Errors>();
 
-    const [renderThanks, setRenderThanks] = useState(true);
+    const [renderThanks, setRenderThanks] = useState(false);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();

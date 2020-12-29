@@ -1,6 +1,6 @@
 import { ThemeProvider } from '@material-ui/core';
 import React, { Suspense, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { theme } from './theme';
 import { Layout } from './containers/Layout/Layout';
 import { useDispatch, useSelector } from 'react-redux';
@@ -29,7 +29,7 @@ const App: React.FC = () => {
         <ThemeProvider theme={theme}>
             <Layout authenticated={authenticated}>
                 <Suspense fallback={'loading..'}>
-                    <Router>
+                    <BrowserRouter>
                         <Switch>
                             <Route path='/' exact component={asd} />
                             <Route path='/register' component={RegisterPage} />
@@ -37,7 +37,7 @@ const App: React.FC = () => {
                             <Route path='/error' component={ErrorPage} />
                             <Redirect to='/error' />
                         </Switch>
-                    </Router>
+                    </BrowserRouter>
                 </Suspense>
             </Layout>
         </ThemeProvider>
