@@ -76,12 +76,12 @@ export const Layout: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     let location = window.location.pathname;
 
+    const [selectedPage, setSelectedPage] = React.useState('/');
+
     useEffect(() => {
         location = window.location.pathname;
         setSelectedPage(location);
-    }, [location]);
-
-    const [selectedPage, setSelectedPage] = React.useState('/');
+    }, [selectedPage]);
 
     const loggedUserOptions = [
         <BottomNavigationAction

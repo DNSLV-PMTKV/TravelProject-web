@@ -1,7 +1,9 @@
-import { Button, Container, createStyles, Grid, Link, makeStyles, TextField, Typography } from '@material-ui/core';
+import { Button, Container, createStyles, Grid, Link, makeStyles, Typography } from '@material-ui/core';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import ErrorIcon from '@material-ui/icons/Error';
 import React, { Fragment, useState } from 'react';
+import { TextInput } from '../../components/TextInput/TextInput';
+import { useTitle } from '../../helpers/useTitle';
 import UserRequests from '../../requests/userRequests';
 
 // interface Props {}
@@ -39,6 +41,8 @@ const useStyles = makeStyles(() =>
 );
 
 const Register: React.FC = () => {
+    useTitle('Travel Project | Register');
+
     const classes = useStyles();
 
     const [email, setEmail] = useState('');
@@ -83,6 +87,7 @@ const Register: React.FC = () => {
         });
     };
 
+    // TODO fix errros to component
     const renderForm = () => {
         return (
             <Fragment>
@@ -92,7 +97,7 @@ const Register: React.FC = () => {
                 <form onSubmit={handleSubmit} className={classes.form}>
                     <Grid container spacing={3}>
                         <Grid item xs={12} sm={6} className={classes.gridItem}>
-                            <TextField
+                            <TextInput
                                 required
                                 fullWidth
                                 id='first_name'
@@ -103,7 +108,7 @@ const Register: React.FC = () => {
                             />
                         </Grid>
                         <Grid item xs={12} sm={6} className={classes.gridItem}>
-                            <TextField
+                            <TextInput
                                 required
                                 fullWidth
                                 id='last_name'
@@ -114,7 +119,7 @@ const Register: React.FC = () => {
                             />
                         </Grid>
                         <Grid item xs={12} className={classes.gridItem}>
-                            <TextField
+                            <TextInput
                                 required
                                 fullWidth
                                 id='email'
@@ -125,7 +130,7 @@ const Register: React.FC = () => {
                             />
                         </Grid>
                         <Grid item xs={12} className={classes.gridItem}>
-                            <TextField
+                            <TextInput
                                 required
                                 fullWidth
                                 id='password'
@@ -137,7 +142,7 @@ const Register: React.FC = () => {
                             />
                         </Grid>
                         <Grid item xs={12} className={classes.gridItem}>
-                            <TextField
+                            <TextInput
                                 required
                                 fullWidth
                                 id='password2'
@@ -160,14 +165,9 @@ const Register: React.FC = () => {
                     container
                     alignItems='center'
                     alignContent='center'
-                    justify='space-between'
+                    justify='center'
                     className={classes.linksContainer}
                 >
-                    <Grid item>
-                        <Link href='#' variant='body2' className={classes.links}>
-                            Forgot password?
-                        </Link>
-                    </Grid>
                     <Grid item>
                         <Link href='/login' variant='body2' className={classes.links}>
                             Already have account? Login

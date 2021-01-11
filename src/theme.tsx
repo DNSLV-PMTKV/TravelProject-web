@@ -11,7 +11,6 @@ const defaultTheme = createMuiTheme();
 export const theme = createMuiTheme({
     palette: {},
     typography: {
-        // fontFamily: 'Quicksand, sans-serif',
         h2: {
             color: black,
             fontSize: '3rem',
@@ -45,31 +44,31 @@ export const theme = createMuiTheme({
                 backGroundColor: '#f9c5d1',
                 backgroundImage: 'linear-gradient(120deg, rgba(0,212,255,1) 0%, rgba(249,197,209,1) 60%)',
                 padding: '.75rem',
-                margin: '12px 0'
+                margin: '12px 0',
+                borderRadius: '32px'
             },
             label: {
                 color: black,
                 fontWeight: 'inherit'
             },
             fullWidth: {
-                fontWeight: 700
+                fontWeight: 700,
+                width: '75%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                margin: '12px auto'
             }
         },
         MuiInputLabel: {
-            outlined: {
-                color: black,
-                fontSize: 18
+            root: {
+                fontSize: 15,
+                color: black
             }
         },
         MuiTextField: {
             root: {
                 backgroundColor: 'white',
-                '& label.Mui-focused': {
-                    color: black
-                },
-                '& .MuiInput-underline:after': {
-                    borderBottomColor: 'green'
-                },
                 '& .MuiOutlinedInput-root': {
                     '&:hover fieldset': {
                         border: '1px solid rgba(0, 0, 0, 0.23)'
@@ -78,6 +77,11 @@ export const theme = createMuiTheme({
                         border: '1px solid rgba(0, 0, 0, 0.23)'
                     }
                 }
+            }
+        },
+        MuiOutlinedInput: {
+            input: {
+                padding: '10px 10px'
             }
         },
         MuiSvgIcon: {
@@ -114,8 +118,7 @@ export const theme = createMuiTheme({
             InputLabelProps: {
                 shrink: true
             },
-            autoComplete: 'off',
-            margin: 'normal'
+            autoComplete: 'off'
         },
         MuiBottomNavigationAction: {
             disableRipple: true,

@@ -1,5 +1,6 @@
 import { Container, createStyles, makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
+import { useTitle } from '../../helpers/useTitle';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -23,7 +24,10 @@ const useStyles = makeStyles(() =>
 );
 
 const Error: React.FC = () => {
+    useTitle('Travel Project | 404');
+
     const classes = useStyles();
+
     return (
         <Container className={classes.container}>
             <Typography variant='h2' align='center' className={classes['404']}>

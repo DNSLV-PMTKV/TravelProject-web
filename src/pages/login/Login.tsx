@@ -1,12 +1,14 @@
-import { Button, Container, Grid, Link, TextField, Typography } from '@material-ui/core';
-import React, { useState } from 'react';
+import { Button, Container, Grid, Link, Typography } from '@material-ui/core';
+import { createStyles, makeStyles } from '@material-ui/core/styles';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
-import { makeStyles, createStyles } from '@material-ui/core/styles';
-import UserRequests from '../../requests/userRequests';
 import ErrorIcon from '@material-ui/icons/Error';
-import { useHistory } from 'react-router-dom';
-import { setAuthenticated } from '../../redux/users/userActions';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { TextInput } from '../../components/TextInput/TextInput';
+import { useTitle } from '../../helpers/useTitle';
+import { setAuthenticated } from '../../redux/users/userActions';
+import UserRequests from '../../requests/userRequests';
 
 interface Errors {
     email?: string[];
@@ -33,6 +35,8 @@ const useStyles = makeStyles(() =>
 );
 
 const Login: React.FC = () => {
+    useTitle('Travel Project | Login');
+
     const classes = useStyles();
     const history = useHistory();
     const dispatch = useDispatch();
@@ -74,13 +78,15 @@ const Login: React.FC = () => {
         });
     };
 
+    // TODO fix errros to component
+
     return (
         <Container component='div' maxWidth='sm'>
             <Typography variant='h2' align='center'>
                 Log in.
             </Typography>
             <form onSubmit={handleSumbit}>
-                <TextField
+                <TextInput
                     required
                     fullWidth
                     id='email'
@@ -89,7 +95,7 @@ const Login: React.FC = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
-                <TextField
+                <TextInput
                     required
                     fullWidth
                     name='password'
@@ -106,7 +112,7 @@ const Login: React.FC = () => {
             </form>
             <Grid container alignItems='center' alignContent='center' justify='space-between'>
                 <Grid item>
-                    <Link href='#' variant='body2' className={classes.links}>
+                    <Link href='/forgot-password' variant='body2' className={classes.links}>
                         Forgot password?
                     </Link>
                 </Grid>
