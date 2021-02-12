@@ -6,6 +6,7 @@ import { Layout } from './containers/Layout/Layout';
 import { useDispatch, useSelector } from 'react-redux';
 import { ApplicationState } from './redux/reducers';
 import { setAuthenticated } from './redux/users/userActions';
+import Spinner from './components/Spinner/Spinner';
 
 const ErrorPage = React.lazy(() => import('./pages/error/Error'));
 const LoginPage = React.lazy(() => import('./pages/login/Login'));
@@ -13,37 +14,37 @@ const RegisterPage = React.lazy(() => import('./pages/register/Register'));
 const ForgotPasswordPage = React.lazy(() => import('./pages/forgotPassword/ForgotPassword'));
 
 const asd: React.FC = () => {
-    return <div>ALO DA?</div>;
+	return <div>ALO DA?</div>;
 };
 
 const App: React.FC = () => {
-    const dispatch = useDispatch();
-    const authenticated = useSelector((state: ApplicationState) => state.user.isAuthenticated);
+	const dispatch = useDispatch();
+	const authenticated = useSelector((state: ApplicationState) => state.user.isAuthenticated);
 
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (token) dispatch(setAuthenticated());
-    }, [authenticated]);
+	useEffect(() => {
+		const token = localStorage.getItem('token');
+		if (token) dispatch(setAuthenticated());
+	}, [authenticated]);
 
-    console.log('authenticated', authenticated);
-    return (
-        <ThemeProvider theme={theme}>
-            <Layout authenticated={authenticated}>
-                <Suspense fallback={'loading..'}>
-                    <BrowserRouter>
-                        <Switch>
-                            <Route path='/' exact component={asd} />
-                            <Route path='/register' component={RegisterPage} />
-                            <Route path='/login' component={LoginPage} />
-                            <Route path='/forgot-password' component={ForgotPasswordPage} />
-                            <Route path='/error' component={ErrorPage} />
-                            <Redirect to='/error' />
-                        </Switch>
-                    </BrowserRouter>
-                </Suspense>
-            </Layout>
-        </ThemeProvider>
-    );
+	console.log('authenticated', authenticated);
+	return (
+		<ThemeProvider theme={theme}>
+			<Layout authenticated={authenticated}>
+				<Suspense fallback={<Spinner />}>
+					<BrowserRouter>
+						<Switch>
+							<Route path='/' exact component={asd} />
+							<Route path='/register' component={RegisterPage} />
+							<Route path='/login' component={LoginPage} />
+							<Route path='/forgot-password' component={ForgotPasswordPage} />
+							<Route path='/error' component={ErrorPage} />
+							<Redirect to='/error' />
+						</Switch>
+					</BrowserRouter>
+				</Suspense>
+			</Layout>
+		</ThemeProvider>
+	);
 };
 
 export default App;

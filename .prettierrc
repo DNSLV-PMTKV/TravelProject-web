@@ -7,8 +7,8 @@
     "trailingComma": "none",
     "arrowParens": "always",
     "printWidth": 120,
-    "useTabs": false,
-   "proseWrap": "preserve",
+    "useTabs": true,
+    "proseWrap": "preserve",
     "overrides": [
         {
             "files": "*.html",
