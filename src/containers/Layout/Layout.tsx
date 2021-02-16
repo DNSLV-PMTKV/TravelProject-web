@@ -1,12 +1,10 @@
 import { BottomNavigation, BottomNavigationAction } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import AccountBoxRoundedIcon from '@material-ui/icons/AccountBoxRounded';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
 import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
 import TelegramIcon from '@material-ui/icons/Telegram';
@@ -34,7 +32,11 @@ const useStyles = makeStyles((theme: Theme) =>
 			}
 		},
 		leftButton: {
-			marginRight: '.5em'
+			marginRight: '1em',
+			fontWeight: 'bold'
+		},
+		rightButton: {
+			fontWeight: 'bold'
 		},
 		titleContainer: {
 			[theme.breakpoints.down(mobileBreak)]: {
@@ -135,25 +137,16 @@ export const Layout: React.FC<Props> = (props: Props) => {
 	const renderDesktopMenu = (
 		<div className={classes.sectionDesktop}>
 			{props.authenticated ? (
-				<Link href='/account'>
-					<Button className={classes.button}>
-						<AccountCircleIcon />
-						Account
-					</Button>
+				<Link href='/account' className={classes.rightButton}>
+					Account
 				</Link>
 			) : (
 				<Fragment>
 					<Link href='/login' className={classes.leftButton}>
-						{/* <Button className={classes.button}> */}
-						{/* <AccountCircleIcon /> */}
 						Login
-						{/* </Button> */}
 					</Link>
-					<Link href='/register'>
-						{/* <Button className={classes.button}> */}
-						{/* <AccountCircleIcon /> */}
+					<Link href='/register' className={classes.rightButton}>
 						Register
-						{/* </Button> */}
 					</Link>
 				</Fragment>
 			)}

@@ -11,6 +11,7 @@ import Spinner from './components/Spinner/Spinner';
 const ErrorPage = React.lazy(() => import('./pages/error/Error'));
 const LoginPage = React.lazy(() => import('./pages/login/Login'));
 const RegisterPage = React.lazy(() => import('./pages/register/Register'));
+const ActivateAccount = React.lazy(() => import('./pages/activateAccount/ActivateAccount'));
 const ForgotPasswordPage = React.lazy(() => import('./pages/forgotPassword/ForgotPassword'));
 
 const asd: React.FC = () => {
@@ -35,10 +36,11 @@ const App: React.FC = () => {
 						<Switch>
 							<Route path='/' exact component={asd} />
 							<Route path='/register' component={RegisterPage} />
+							<Route path='/activate/:token' component={ActivateAccount} />
 							<Route path='/login' component={LoginPage} />
 							<Route path='/forgot-password' component={ForgotPasswordPage} />
-							<Route path='/error' component={ErrorPage} />
-							<Redirect to='/error' />
+							<Route path='/404' component={ErrorPage} />
+							<Redirect to='/404' />
 						</Switch>
 					</BrowserRouter>
 				</Suspense>
