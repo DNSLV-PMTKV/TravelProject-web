@@ -15,7 +15,7 @@ export const userReducer = (state: UserState = InitialState, action: Action): Us
         case SET_AUTHENTICATED:
             return {
                 ...state,
-                isAuthenticated: true
+                isAuthenticated: action.value
             };
         default:
             return state;
