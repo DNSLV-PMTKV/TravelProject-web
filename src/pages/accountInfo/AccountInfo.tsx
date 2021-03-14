@@ -12,7 +12,9 @@ import {
 } from '@material-ui/core';
 
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { TextInput } from '../../components/TextInput/TextInput';
+import { addToastNotification } from '../../redux/toastNotifications/toastNotificationsActions';
 import UserRequests, { UserInfoInterface } from '../../requests/userRequests';
 
 const emptyValuesUserData: UserInfoInterface = {
@@ -34,6 +36,7 @@ const useStyles = makeStyles(() =>
 const AccountInfo: React.FC = () => {
     const classes = useStyles();
     const [user, setUser] = useState<UserInfoInterface>(emptyValuesUserData);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         let mounted = true;
@@ -45,6 +48,7 @@ const AccountInfo: React.FC = () => {
             })
             .catch((err) => {
                 console.error('err', err);
+                dispatch(addToastNotification({ severity: 'error', message: 'Could not fetch information' }));
             });
         return () => {
             mounted = false;
@@ -60,6 +64,12 @@ const AccountInfo: React.FC = () => {
             })
             .catch((err) => {
                 console.error(err);
+                dispatch(
+                    addToastNotification({
+                        severity: 'error',
+                        message: 'Could not fetch information aasdasdasdasdadasdadasda asdasdasda s dasda da ds ad'
+                    })
+                );
             });
     };
     return (

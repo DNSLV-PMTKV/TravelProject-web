@@ -1,4 +1,5 @@
 import { createMuiTheme } from '@material-ui/core/styles';
+import _ from '@material-ui/lab/themeAugmentation';
 
 export const black = '#303030';
 export const pink = '#ffc0cb';
@@ -135,6 +136,12 @@ export const theme = createMuiTheme({
                 ['@media (max-width: 600px)']: {
                     padding: '0px'
                 }
+            }
+        },
+        MuiAlert: {
+            root: {
+                borderRadius: '12px',
+                marginBottom: '5px'
             }
         }
     },
