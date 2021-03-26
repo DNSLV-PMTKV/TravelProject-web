@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  react:
+    container_name: travelproject_react
+    build:
+      context: .
+      dockerfile: dockerfile
+    command: yarn start
+    volumes:
+      - .:/home/app/react
+    ports:
+      - 3000:3000
+    stdin_open: true

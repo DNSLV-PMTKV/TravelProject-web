@@ -1,26 +1,32 @@
 {
-	"bracketSpacing": true,
-	"jsxSingleQuote": true,
-	"singleQuote": true,
-	"semi": true,
-	"tabWidth": 4,
-	"trailingComma": "none",
-	"arrowParens": "always",
-	"printWidth": 120,
-	"useTabs": false,
-	"proseWrap": "preserve",
-	"overrides": [
-		{
-			"files": "*.html",
-			"options": {
-				"tabWidth": 2
-			}
-		},
-		{
-			"files": "*.css",
-			"options": {
-				"tabWidth": 2
-			}
-		}
-	]
+    "bracketSpacing": true,
+    "jsxSingleQuote": true,
+    "singleQuote": true,
+    "semi": true,
+    "tabWidth": 4,
+    "trailingComma": "none",
+    "arrowParens": "always",
+    "printWidth": 120,
+    "useTabs": false,
+    "proseWrap": "preserve",
+    "overrides": [
+        {
+            "files": "*.html",
+            "options": {
+                "tabWidth": 2
+            }
+        },
+        {
+            "files": "*.css",
+            "options": {
+                "tabWidth": 2
+            }
+        },
+        {
+            "files": "*.yml",
+            "options": {
+                "tabWidth": 2
+            }
+        }
+    ]
 }
