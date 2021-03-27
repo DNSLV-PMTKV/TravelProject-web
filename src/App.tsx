@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ApplicationState } from './redux/reducers';
 import { setAuthenticated } from './redux/users/userActions';
 import Spinner from './components/Spinner/Spinner';
-import Toast from './containers/ToastNotifications/Toast';
+import ReactNotification from 'react-notifications-component';
 
 const ErrorPage = React.lazy(() => import('./pages/error/Error'));
 const LoginPage = React.lazy(() => import('./pages/login/Login'));
@@ -32,6 +32,7 @@ const App: React.FC = () => {
     console.log('authenticated', authenticated);
     return (
         <ThemeProvider theme={theme}>
+            <ReactNotification />
             <Layout authenticated={authenticated}>
                 <Suspense fallback={<Spinner />}>
                     <BrowserRouter>
@@ -52,7 +53,6 @@ const App: React.FC = () => {
                     </BrowserRouter>
                 </Suspense>
             </Layout>
-            <Toast />
         </ThemeProvider>
     );
 };

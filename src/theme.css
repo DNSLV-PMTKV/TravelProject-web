@@ -1,0 +1,7 @@
+.notifications-component {
+  font-family: 'Roboto';
+}
+.notification-container--top-right {
+  right: 20px;
+  top: 50px;
+}

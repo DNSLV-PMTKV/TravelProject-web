@@ -7,14 +7,14 @@ import {
     createStyles,
     Grid,
     makeStyles,
-    Snackbar,
     Typography
 } from '@material-ui/core';
+import { AxiosError } from 'axios';
 
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { TextInput } from '../../components/TextInput/TextInput';
-import { addToastNotification } from '../../redux/toastNotifications/toastNotificationsActions';
+import { makeErrorNotification, makeSuccessNotification } from '../../helpers/notifications';
 import UserRequests, { UserInfoInterface } from '../../requests/userRequests';
 
 const emptyValuesUserData: UserInfoInterface = {
@@ -46,9 +46,12 @@ const AccountInfo: React.FC = () => {
                     setUser(res.data);
                 }
             })
-            .catch((err) => {
-                console.error('err', err);
-                dispatch(addToastNotification({ severity: 'error', message: 'Could not fetch information' }));
+            .catch((err: AxiosError) => {
+                if (err.message) {
+                    makeErrorNotification(err.message);
+                } else {
+                    makeErrorNotification('Could not fetch information');
+                }
             });
         return () => {
             mounted = false;
@@ -60,16 +63,18 @@ const AccountInfo: React.FC = () => {
     const updateUserInfo = (): void => {
         UserRequests.updateUserInfo(user)
             .then((res) => {
+                makeSuccessNotification('Successfully updated account information.');
                 setUser(res.data);
             })
             .catch((err) => {
                 console.error(err);
-                dispatch(
-                    addToastNotification({
-                        severity: 'error',
-                        message: 'Could not fetch information aasdasdasdasdadasdadasda asdasdasda s dasda da ds ad'
-                    })
-                );
+                // dispatch(
+                //     addToastNotification({
+                //         severity: 'error',
+                //         message: 'Could not fetch information aasdasdasdasdadasdadasda asdasdasda s dasda da ds ad'
+                //     })
+                // );
+                // handleError(err);
             });
     };
     return (
