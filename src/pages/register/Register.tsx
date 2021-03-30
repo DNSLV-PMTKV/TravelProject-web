@@ -10,18 +10,17 @@ import {
     makeStyles,
     Typography
 } from '@material-ui/core';
-import ErrorIcon from '@material-ui/icons/Error';
-import React, { Fragment, useState } from 'react';
-import { TextInput } from '../../components/TextInput/TextInput';
-import { useTitle } from '../../helpers/useTitle';
-import UserRequests from '../../requests/userRequests';
+import React from 'react';
+import { ControllTextInput } from '../../components/TextInput/TextInput';
+import useRegister from '../../hooks/useRegister';
+import { useTitle } from '../../hooks/useTitle';
 
 // interface Props {}
-interface Errors {
-    email?: string[];
-    non_field_errors?: string[];
-    detail?: string;
-}
+// interface Errors {
+//     email?: string[];
+//     non_field_errors?: string[];
+//     detail?: string;
+// }
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -52,55 +51,25 @@ const useStyles = makeStyles(() =>
 
 const Register: React.FC = () => {
     useTitle('Travel Project | Register');
-
+    const { onSubmit, renderThanks, control } = useRegister();
     const classes = useStyles();
 
-    const [email, setEmail] = useState('');
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [password, setPassword] = useState('');
-    const [password2, setPassword2] = useState('');
-
-    const [errors, setErrors] = useState<Errors>();
-
-    const [renderThanks, setRenderThanks] = useState(false);
-
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        const data = {
-            first_name: firstName,
-            last_name: lastName,
-            email: email,
-            password: password,
-            password2: password2
-        };
-
-        UserRequests.register(data)
-            .then(() => {
-                setRenderThanks(true);
-            })
-            .catch((err) => {
-                setErrors(err.response.data);
-                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-            });
-    };
-
-    const renderErrors = () => {
-        const errorList = [errors?.email, errors?.non_field_errors, errors?.detail];
-        return errorList.map((err, key) => {
-            return err ? (
-                <Typography key={`err-${key}`} variant='body2' align='center' className={classes.errors}>
-                    <ErrorIcon className={classes.errorBadge} />
-                    {err}
-                </Typography>
-            ) : null;
-        });
-    };
+    // const renderErrors = () => {
+    //     const errorList = [errors?.email, errors?.non_field_errors, errors?.detail];
+    //     return errorList.map((err, key) => {
+    //         return err ? (
+    //             <Typography key={`err-${key}`} variant='body2' align='center' className={classes.errors}>
+    //                 <ErrorIcon className={classes.errorBadge} />
+    //                 {err}
+    //             </Typography>
+    //         ) : null;
+    //     });
+    // };
 
     // TODO fix errros to component
     const renderForm = () => {
         return (
-            <Fragment>
+            <>
                 <Card raised>
                     <CardHeader
                         title={
@@ -110,63 +79,63 @@ const Register: React.FC = () => {
                         }
                     />
                     <CardContent>
-                        <form onSubmit={handleSubmit} className={classes.form}>
+                        <form noValidate onSubmit={onSubmit} className={classes.form}>
                             <Grid container spacing={3}>
                                 <Grid item xs={12} sm={6} className={classes.gridItem}>
-                                    <TextInput
+                                    <ControllTextInput
                                         required
                                         fullWidth
                                         id='first_name'
                                         label='First Name'
                                         name='first_name'
-                                        value={firstName}
-                                        onChange={(e) => setFirstName(e.target.value)}
+                                        control={control}
+                                        rules={{ required: 'First name is required.' }}
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6} className={classes.gridItem}>
-                                    <TextInput
+                                    <ControllTextInput
                                         required
                                         fullWidth
                                         id='last_name'
                                         label='Last Name'
                                         name='last_name'
-                                        value={lastName}
-                                        onChange={(e) => setLastName(e.target.value)}
+                                        control={control}
+                                        rules={{ required: 'Last name is required.' }}
                                     />
                                 </Grid>
                                 <Grid item xs={12} className={classes.gridItem}>
-                                    <TextInput
+                                    <ControllTextInput
                                         required
                                         fullWidth
                                         id='email'
                                         label='Email'
                                         name='email'
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
+                                        control={control}
+                                        rules={{ required: 'Email is required.' }}
                                     />
                                 </Grid>
                                 <Grid item xs={12} className={classes.gridItem}>
-                                    <TextInput
+                                    <ControllTextInput
                                         required
                                         fullWidth
                                         id='password'
                                         label='Password'
                                         name='password'
                                         type='password'
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
+                                        control={control}
+                                        rules={{ required: 'Password is required.' }}
                                     />
                                 </Grid>
                                 <Grid item xs={12} className={classes.gridItem}>
-                                    <TextInput
+                                    <ControllTextInput
                                         required
                                         fullWidth
                                         id='password2'
                                         label='Re-Password'
                                         name='password2'
                                         type='password'
-                                        value={password2}
-                                        onChange={(e) => setPassword2(e.target.value)}
+                                        control={control}
+                                        rules={{ required: 'Re-Password is required.' }}
                                     />
                                 </Grid>
                                 <Grid item xs={12} className={classes.gridItem}>
@@ -192,21 +161,21 @@ const Register: React.FC = () => {
                         </Link>
                     </Grid>
                 </Grid>
-                {renderErrors()}
-            </Fragment>
+                {/* {renderErrors()} */}
+            </>
         );
     };
 
     const renderThanksMessage = () => {
         return (
-            <Fragment>
+            <>
                 <Typography variant='h2' align='center'>
                     Thank you for registering.
                 </Typography>
                 <Typography variant='h6' align='center'>
                     Please confirm your email address to continue.
                 </Typography>
-            </Fragment>
+            </>
         );
     };
 

@@ -1,6 +1,6 @@
 import { Container, createStyles, makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
-import { useTitle } from '../../helpers/useTitle';
+import { useTitle } from '../../hooks/useTitle';
 
 const useStyles = makeStyles(() =>
     createStyles({

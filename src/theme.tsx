@@ -4,6 +4,7 @@ import _ from '@material-ui/lab/themeAugmentation';
 export const black = '#303030';
 export const pink = '#ffc0cb';
 export const lightGray = '#eee';
+export const blue = '#355c7d';
 // const white = '#f8f5fb';
 
 export const mobileBreak = 650;
@@ -14,7 +15,7 @@ const defaultTheme = createMuiTheme();
 export const theme = createMuiTheme({
     palette: {
         primary: {
-            main: '#355c7d'
+            main: blue
         }
     },
     typography: {
@@ -32,8 +33,8 @@ export const theme = createMuiTheme({
                 backdropFilter: 'blur(2px)'
             },
             colorPrimary: {
-                backgroundColor: 'transparent',
-                color: black
+                backgroundColor: blue,
+                color: pink
             }
         },
         MuiToolbar: {

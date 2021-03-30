@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ApplicationState } from '../../redux/reducers';
 import { useHistory } from 'react-router-dom';
 import { TextInput } from '../../components/TextInput/TextInput';
-import { useTitle } from '../../helpers/useTitle';
+import { useTitle } from '../../hooks/useTitle';
 import { setAuthenticated } from '../../redux/users/userActions';
 import UserRequests from '../../requests/userRequests';
 
