@@ -37,6 +37,9 @@ const App: React.FC = () => {
                 <Suspense fallback={<Spinner />}>
                     <BrowserRouter>
                         <Switch>
+                            <Route path='/' exact component={asd} />
+                            <Route path='/account' component={AccountInfo} />
+                            <Route path='/404' component={ErrorPage} />
                             {!authenticated ? (
                                 <>
                                     <Route path='/login' component={LoginPage} />
@@ -45,9 +48,6 @@ const App: React.FC = () => {
                                     <Route path='/forgot-password' component={ForgotPasswordPage} />
                                 </>
                             ) : null}
-                            <Route path='/' exact component={asd} />
-                            <Route path='/account' component={AccountInfo} />
-                            <Route path='/404' component={ErrorPage} />
                             <Redirect to='/404' />
                         </Switch>
                     </BrowserRouter>
