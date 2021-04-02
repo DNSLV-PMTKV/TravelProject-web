@@ -11,16 +11,10 @@ import {
     Typography
 } from '@material-ui/core';
 import React from 'react';
+import { FormErrors } from '../../components/FormErrors/FormErrors';
 import { ControllTextInput } from '../../components/TextInput/TextInput';
 import useRegister from '../../hooks/useRegister';
 import { useTitle } from '../../hooks/useTitle';
-
-// interface Props {}
-// interface Errors {
-//     email?: string[];
-//     non_field_errors?: string[];
-//     detail?: string;
-// }
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -51,22 +45,9 @@ const useStyles = makeStyles(() =>
 
 const Register: React.FC = () => {
     useTitle('Travel Project | Register');
-    const { onSubmit, renderThanks, control } = useRegister();
+    const { onSubmit, renderThanks, control, errors, validateEmail, validatePasswords } = useRegister();
     const classes = useStyles();
 
-    // const renderErrors = () => {
-    //     const errorList = [errors?.email, errors?.non_field_errors, errors?.detail];
-    //     return errorList.map((err, key) => {
-    //         return err ? (
-    //             <Typography key={`err-${key}`} variant='body2' align='center' className={classes.errors}>
-    //                 <ErrorIcon className={classes.errorBadge} />
-    //                 {err}
-    //             </Typography>
-    //         ) : null;
-    //     });
-    // };
-
-    // TODO fix errros to component
     const renderForm = () => {
         return (
             <>
@@ -111,7 +92,7 @@ const Register: React.FC = () => {
                                         label='Email'
                                         name='email'
                                         control={control}
-                                        rules={{ required: 'Email is required.' }}
+                                        rules={{ required: 'Email is required.', validate: validateEmail }}
                                     />
                                 </Grid>
                                 <Grid item xs={12} className={classes.gridItem}>
@@ -135,7 +116,7 @@ const Register: React.FC = () => {
                                         name='password2'
                                         type='password'
                                         control={control}
-                                        rules={{ required: 'Re-Password is required.' }}
+                                        rules={{ required: 'Re-Password is required.', validate: validatePasswords }}
                                     />
                                 </Grid>
                                 <Grid item xs={12} className={classes.gridItem}>
@@ -161,7 +142,7 @@ const Register: React.FC = () => {
                         </Link>
                     </Grid>
                 </Grid>
-                {/* {renderErrors()} */}
+                <FormErrors errors={errors} />
             </>
         );
     };

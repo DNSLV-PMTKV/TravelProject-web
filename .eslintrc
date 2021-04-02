@@ -17,7 +17,8 @@
         "constructor-super": "warn",
         "quotes": ["warn", "single"],
         "semi": ["warn", "always"],
-        "no-unused-vars": "warn",
+        "@typescript-eslint/no-unused-vars": ["warn"],
+        "no-unused-vars": "off",
         "no-warning-comments": [1, { "terms": ["todo"], "location": "anywhere" }]
     }
 }
