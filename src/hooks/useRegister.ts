@@ -19,7 +19,6 @@ interface RegisterReturnInterface {
     renderThanks: boolean;
     control: Control<FormValues>;
     errors: DeepMap<FormValues, FieldError>;
-    validateEmail: (value: string) => boolean | string;
     validatePasswords: () => boolean | string;
 }
 
@@ -39,11 +38,6 @@ const useRegister = (): RegisterReturnInterface => {
                 setRequestErrors(err);
                 window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
             });
-    };
-
-    const validateEmail = (email: string): boolean | string => {
-        const re = emailRegex;
-        return re.test(email.toLowerCase()) || 'Please enter valid email address.';
     };
 
     const validatePasswords = (): boolean | string => {
@@ -76,7 +70,6 @@ const useRegister = (): RegisterReturnInterface => {
         renderThanks,
         control,
         errors,
-        validateEmail,
         validatePasswords
     };
 };

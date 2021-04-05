@@ -3,6 +3,7 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import { FormErrors } from '../../components/FormErrors/FormErrors';
 import { ControllTextInput } from '../../components/TextInput/TextInput';
+import { validateEmail } from '../../helpers/validators';
 import useLogin from '../../hooks/useLogin';
 import { useTitle } from '../../hooks/useTitle';
 
@@ -32,7 +33,7 @@ const useStyles = makeStyles(() =>
 
 const Login: React.FC = () => {
     useTitle('Travel Project | Login');
-    const { onSubmit, control, errors, validateEmail } = useLogin();
+    const { onSubmit, control, errors } = useLogin();
     const classes = useStyles();
 
     return (

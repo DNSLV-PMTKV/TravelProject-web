@@ -8,15 +8,12 @@ import {
     makeStyles,
     Typography
 } from '@material-ui/core';
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import { FormErrors } from '../../components/FormErrors/FormErrors';
-import { TextInput } from '../../components/TextInput/TextInput';
+import { ControllTextInput } from '../../components/TextInput/TextInput';
+import { validateEmail } from '../../helpers/validators';
+import useForgotPassword from '../../hooks/useForgotPassword';
 import { useTitle } from '../../hooks/useTitle';
-import UserRequests from '../../requests/userRequests';
-
-interface Errors {
-    email?: string[];
-}
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -31,30 +28,8 @@ const useStyles = makeStyles(() =>
 
 const ForgotPassword: React.FC = () => {
     useTitle('Travel Project | Forgot Password');
-
+    const { onSubmit, control, mailSend, errors } = useForgotPassword();
     const classes = useStyles();
-
-    const [email, setEmail] = useState('');
-    const [mailSend, setMailSend] = useState(false);
-    const [errors, setErrors] = useState<Errors>();
-
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
-        const data = { email: email };
-
-        UserRequests.forgotPasswordEmail(data)
-            .then(() => {
-                setMailSend(true);
-            })
-            .catch((err) => {
-                setErrors(err.response.data);
-            });
-    };
-
-    const createErrorList = () => {
-        return [errors?.email];
-    };
 
     const renderForm = () => {
         return (
@@ -73,14 +48,15 @@ const ForgotPassword: React.FC = () => {
                         }
                     />
                     <CardContent>
-                        <form onSubmit={handleSubmit} className={classes.form}>
-                            <TextInput
+                        <form noValidate onSubmit={onSubmit} className={classes.form}>
+                            <ControllTextInput
                                 required
                                 fullWidth
                                 id='email'
+                                label='Email'
                                 name='email'
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                                control={control}
+                                rules={{ required: 'Email is required.', validate: validateEmail }}
                             />
                             <Button type='submit' fullWidth variant='contained' color='primary'>
                                 Send mail
@@ -88,8 +64,7 @@ const ForgotPassword: React.FC = () => {
                         </form>
                     </CardContent>
                 </Card>
-
-                <FormErrors errors={createErrorList()} />
+                <FormErrors errors={errors} />
             </Fragment>
         );
     };

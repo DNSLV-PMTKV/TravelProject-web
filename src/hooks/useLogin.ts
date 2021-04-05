@@ -17,7 +17,6 @@ interface LoginReturnInterface {
     onSubmit: () => void;
     control: Control<FormValues>;
     errors: DeepMap<FormValues, FieldError>;
-    validateEmail: (value: string) => boolean | string;
 }
 
 const useLogin = (): LoginReturnInterface => {
@@ -56,17 +55,11 @@ const useLogin = (): LoginReturnInterface => {
         }
     };
 
-    const validateEmail = (email: string): boolean | string => {
-        const re = emailRegex;
-        return re.test(email.toLowerCase()) || 'Please enter valid email address.';
-    };
-
     return {
         register,
         control,
         errors,
-        onSubmit: handleSubmit(onSubmit),
-        validateEmail
+        onSubmit: handleSubmit(onSubmit)
     };
 };
 

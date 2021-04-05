@@ -5,7 +5,7 @@ import { theme } from './theme';
 import { Layout } from './containers/Layout/Layout';
 import { useDispatch, useSelector } from 'react-redux';
 import { ApplicationState } from './redux/reducers';
-import { setAuthenticated } from './redux/users/userActions';
+import { setAuthenticated, setUsername } from './redux/users/userActions';
 import Spinner from './components/Spinner/Spinner';
 import ReactNotification from 'react-notifications-component';
 
@@ -16,20 +16,27 @@ const ActivateAccount = React.lazy(() => import('./pages/activateAccount/Activat
 const ForgotPasswordPage = React.lazy(() => import('./pages/forgotPassword/ForgotPassword'));
 const AccountInfo = React.lazy(() => import('./pages/accountInfo/AccountInfo'));
 
-const asd: React.FC = () => {
-    return <div>ALO DA?</div>;
-};
-
 const App: React.FC = () => {
     const dispatch = useDispatch();
     const authenticated = useSelector((state: ApplicationState) => state.user.isAuthenticated);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-        if (token) dispatch(setAuthenticated(true));
+        if (token) {
+            dispatch(setAuthenticated(true));
+            dispatch(setUsername('gosho'));
+        }
     }, [authenticated]);
 
-    console.log('authenticated', authenticated);
+    const loggedOutRoutes = [
+        <Route key='login' path='/login' component={LoginPage} />,
+        <Route key='register' path='/register' component={RegisterPage} />,
+        <Route key='activate' path='/activate/:token' component={ActivateAccount} />,
+        <Route key='forgot-password' path='/forgot-password' component={ForgotPasswordPage} />
+    ];
+
+    const loggedInRoutes = [<Route key='account' path='/account' component={AccountInfo} />];
+
     return (
         <ThemeProvider theme={theme}>
             <ReactNotification />
@@ -37,17 +44,8 @@ const App: React.FC = () => {
                 <Suspense fallback={<Spinner />}>
                     <BrowserRouter>
                         <Switch>
-                            <Route path='/' exact component={asd} />
-                            <Route path='/account' component={AccountInfo} />
+                            {[!authenticated && loggedOutRoutes, authenticated && loggedInRoutes]}
                             <Route path='/404' component={ErrorPage} />
-                            {!authenticated ? (
-                                <>
-                                    <Route path='/login' component={LoginPage} />
-                                    <Route path='/register' component={RegisterPage} />
-                                    <Route path='/activate/:token' component={ActivateAccount} />
-                                    <Route path='/forgot-password' component={ForgotPasswordPage} />
-                                </>
-                            ) : null}
                             <Redirect to='/404' />
                         </Switch>
                     </BrowserRouter>

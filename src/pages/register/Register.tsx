@@ -13,6 +13,7 @@ import {
 import React from 'react';
 import { FormErrors } from '../../components/FormErrors/FormErrors';
 import { ControllTextInput } from '../../components/TextInput/TextInput';
+import { validateEmail } from '../../helpers/validators';
 import useRegister from '../../hooks/useRegister';
 import { useTitle } from '../../hooks/useTitle';
 
@@ -45,7 +46,7 @@ const useStyles = makeStyles(() =>
 
 const Register: React.FC = () => {
     useTitle('Travel Project | Register');
-    const { onSubmit, renderThanks, control, errors, validateEmail, validatePasswords } = useRegister();
+    const { onSubmit, renderThanks, control, errors, validatePasswords } = useRegister();
     const classes = useStyles();
 
     const renderForm = () => {
