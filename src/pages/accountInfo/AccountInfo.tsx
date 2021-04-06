@@ -1,4 +1,6 @@
 import {
+    Avatar,
+    Box,
     Button,
     Card,
     CardContent,
@@ -6,80 +8,65 @@ import {
     Container,
     createStyles,
     Grid,
+    InputLabel,
     makeStyles,
+    Theme,
+    Tooltip,
     Typography
 } from '@material-ui/core';
-import { AxiosError } from 'axios';
+import React from 'react';
+import { FormErrors } from '../../components/FormErrors/FormErrors';
+import { ControllTextInput } from '../../components/TextInput/TextInput';
+import { validateEmail } from '../../helpers/validators';
+import useAccountInfo from '../../hooks/useAccountInfo';
+import { blue } from '../../theme';
 
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { TextInput } from '../../components/TextInput/TextInput';
-import { makeErrorNotification, makeSuccessNotification } from '../../helpers/notifications';
-import UserRequests, { UserInfoInterface } from '../../requests/userRequests';
-
-const emptyValuesUserData: UserInfoInterface = {
-    first_name: '',
-    last_name: '',
-    email: '',
-    id: -1,
-    is_active: false
-};
-
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         gridItem: {
             padding: '0 12px !important'
+        },
+        largeAvatar: {
+            width: theme.spacing(10),
+            height: theme.spacing(10)
+        },
+        avatarHolder: {
+            display: 'flex',
+            paddingTop: 5
+        },
+        uploadButton: {
+            lineHeight: 0,
+            margin: '20px 5px 20px 10px',
+            backgroundColor: 'transparent',
+            border: '1px solid rgb(0 0 0 / 20%)',
+            '& .MuiButton-label': {
+                color: blue
+            }
+        },
+        removeButton: {
+            lineHeight: 0,
+            margin: '20px 0px',
+            backgroundColor: 'transparent',
+            border: '1px solid rgb(0 0 0 / 20%)',
+            '& .MuiButton-label': {
+                color: blue
+            }
+        },
+        saveButton: {
+            float: 'right',
+            lineHeight: 1,
+            minWidth: 100
         }
     })
 );
 
 const AccountInfo: React.FC = () => {
     const classes = useStyles();
-    const [user, setUser] = useState<UserInfoInterface>(emptyValuesUserData);
-    const dispatch = useDispatch();
+    const { username, control, errors, onSubmit } = useAccountInfo();
 
-    useEffect(() => {
-        let mounted = true;
-        UserRequests.getLoggedUser()
-            .then((res) => {
-                if (mounted) {
-                    setUser(res.data);
-                }
-            })
-            .catch((err: AxiosError) => {
-                if (err.message) {
-                    makeErrorNotification(err.message);
-                } else {
-                    makeErrorNotification('Could not fetch information');
-                }
-            });
-        return () => {
-            mounted = false;
-        };
-    }, []);
-
-    console.log(user);
-
-    const updateUserInfo = (): void => {
-        UserRequests.updateUserInfo(user)
-            .then((res) => {
-                makeSuccessNotification('Successfully updated account information.');
-                setUser(res.data);
-            })
-            .catch((err) => {
-                console.error(err);
-                // dispatch(
-                //     addToastNotification({
-                //         severity: 'error',
-                //         message: 'Could not fetch information aasdasdasdasdadasdadasda asdasdasda s dasda da ds ad'
-                //     })
-                // );
-                // handleError(err);
-            });
-    };
     return (
         <Container component='div' maxWidth='sm'>
-            <Card raised>
+            <Card raised className='animate__animated animate__fadeIn animate__slow'>
                 <CardHeader
                     title={
                         <Typography variant='h2' align='center'>
@@ -88,48 +75,78 @@ const AccountInfo: React.FC = () => {
                     }
                 />
                 <CardContent>
-                    <Grid container spacing={3}>
-                        <Grid item xs={12} sm={6} className={classes.gridItem}>
-                            <TextInput
-                                required
-                                fullWidth
-                                id='first_name'
-                                label='First Name'
-                                name='first_name'
-                                value={user?.first_name}
-                                onChange={(e) => setUser({ ...user, first_name: e.target.value })}
-                            />
+                    <form noValidate onSubmit={onSubmit}>
+                        <Grid container spacing={3}>
+                            <Grid item xs={12} sm={12} className={classes.gridItem}>
+                                <InputLabel>Avatar</InputLabel>
+                                <Box className={classes.avatarHolder}>
+                                    <Avatar className={classes.largeAvatar}>{username}</Avatar>
+                                    <Tooltip title='Click to change profile picture!' placement='top'>
+                                        <Button className={classes.uploadButton} variant='contained'>
+                                            Upload
+                                        </Button>
+                                    </Tooltip>
+                                    <Tooltip title='Click to remove profile picture!' placement='top'>
+                                        <Button className={classes.removeButton} variant='contained'>
+                                            Remove
+                                        </Button>
+                                    </Tooltip>
+                                </Box>
+                            </Grid>
+                            <Grid item xs={12} sm={12} className={classes.gridItem}>
+                                <hr />
+                            </Grid>
+                            <Grid item xs={12} sm={6} className={classes.gridItem}>
+                                <ControllTextInput
+                                    required
+                                    fullWidth
+                                    id='first_name'
+                                    label='First Name'
+                                    name='first_name'
+                                    control={control}
+                                    rules={{ required: 'First name is required.' }}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6} className={classes.gridItem}>
+                                <ControllTextInput
+                                    required
+                                    fullWidth
+                                    id='last_name'
+                                    label='Last Name'
+                                    name='last_name'
+                                    control={control}
+                                    rules={{ required: 'Last name is required.' }}
+                                />
+                            </Grid>
+                            <Grid item xs={12} className={classes.gridItem}>
+                                <ControllTextInput
+                                    required
+                                    fullWidth
+                                    id='email'
+                                    label='Email'
+                                    name='email'
+                                    control={control}
+                                    rules={{ required: 'Email is required.', validate: validateEmail }}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={12} className={classes.gridItem}>
+                                <hr />
+                            </Grid>
+                            <Grid item xs={12} className={classes.gridItem}>
+                                <Button
+                                    className={classes.saveButton}
+                                    type='submit'
+                                    variant='contained'
+                                    color='primary'
+                                >
+                                    Save changes
+                                </Button>
+                            </Grid>
                         </Grid>
-                        <Grid item xs={12} sm={6} className={classes.gridItem}>
-                            <TextInput
-                                required
-                                fullWidth
-                                id='last_name'
-                                label='Last Name'
-                                name='last_name'
-                                value={user?.last_name}
-                                onChange={(e) => setUser({ ...user, last_name: e.target.value })}
-                            />
-                        </Grid>
-                        <Grid item xs={12} className={classes.gridItem}>
-                            <TextInput
-                                required
-                                fullWidth
-                                id='email'
-                                label='Email'
-                                name='email'
-                                value={user?.email}
-                                onChange={(e) => setUser({ ...user, email: e.target.value })}
-                            />
-                        </Grid>
-                        <Grid item xs={12} className={classes.gridItem}>
-                            <Button onClick={updateUserInfo} variant='contained' color='primary'>
-                                Save
-                            </Button>
-                        </Grid>
-                    </Grid>
+                    </form>
                 </CardContent>
             </Card>
+            <FormErrors errors={errors} />
         </Container>
     );
 };

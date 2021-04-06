@@ -2,14 +2,12 @@ import { AxiosError } from 'axios';
 import { Control, DeepMap, FieldError, SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { emailRegex } from '../constants/regex';
 import { setAuthenticated } from '../redux/users/userActions';
 import UserRequests from '../requests/userRequests';
 
 type FormValues = {
     email: string;
     password: string;
-    server: string;
 };
 
 interface LoginReturnInterface {
@@ -30,7 +28,8 @@ const useLogin = (): LoginReturnInterface => {
     const onSubmit: SubmitHandler<FormValues> = (data) => {
         UserRequests.login(data)
             .then((response) => {
-                localStorage.setItem('token', response.data.token);
+                localStorage.setItem('token', response.data.access);
+                localStorage.setItem('refresh', response.data.refresh);
                 dispatch(setAuthenticated(true));
             })
             .then(() => {
@@ -44,11 +43,11 @@ const useLogin = (): LoginReturnInterface => {
 
     const setRequestErrors = (error: AxiosError) => {
         if (error.request?.response) {
-            if (error.response?.data['non_field_errors']) {
-                setError('server', { type: 'validate', message: error.response?.data['non_field_errors'][0] });
+            if (error.response?.data['detail']) {
+                setError('password', { type: 'validate', message: error.response?.data['detail'] });
             }
         } else {
-            setError('server', {
+            setError('password', {
                 type: 'validate',
                 message: 'There is a problem with server. Please try again in a few minutes.'
             });

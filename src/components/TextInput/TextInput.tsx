@@ -44,7 +44,7 @@ export const ControllTextInput = (
             control={props.control}
             rules={props.rules}
             defaultValue={props.defaultValue ? props.defaultValue : ''}
-            as={
+            render={({ value, onChange }) => (
                 <div className={classes.container}>
                     <InputLabel>
                         {props.label}
@@ -56,9 +56,11 @@ export const ControllTextInput = (
                         id={props.id}
                         name={props.name}
                         type={props.type}
+                        value={value}
+                        onChange={onChange}
                     />
                 </div>
-            }
+            )}
         />
     );
 };

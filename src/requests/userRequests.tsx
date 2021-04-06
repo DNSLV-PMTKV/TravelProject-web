@@ -68,7 +68,7 @@ export default class UserRequests {
     static getLoggedUser = (): AxiosPromise => {
         const token = localStorage.getItem('token');
         const headers = {
-            Authorization: `Token ${token}`
+            Authorization: `Bearer ${token}`
         };
         return Axios.get(UserRequests.loggedUserEndpoint, { headers: headers });
     };
@@ -76,7 +76,7 @@ export default class UserRequests {
     static updateUserInfo = (userInfo: UserInfoInterface): AxiosPromise => {
         const token = localStorage.getItem('token');
         const headers = {
-            Authorization: `Token ${token}`
+            Authorization: `Bearer ${token}`
         };
         return Axios.put(`${UserRequests.baseEndpoint}/${userInfo.id}`, userInfo, { headers: headers });
     };

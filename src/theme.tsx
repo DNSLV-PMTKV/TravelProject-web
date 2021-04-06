@@ -52,7 +52,8 @@ export const theme = createMuiTheme({
             root: {
                 padding: '.75rem',
                 margin: '12px 0',
-                borderRadius: '8px'
+                borderRadius: '8px',
+                textTransform: 'none'
             },
             label: {
                 color: black,
@@ -69,7 +70,8 @@ export const theme = createMuiTheme({
             containedPrimary: {
                 backgroundColor: pink,
                 '&:hover': {
-                    backgroundColor: pink
+                    backgroundColor: pink,
+                    filter: 'brightness(90%)'
                 }
             }
         },

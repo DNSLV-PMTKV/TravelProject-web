@@ -5,3 +5,8 @@
   right: 20px;
   top: 50px;
 }
+hr {
+  border-top: 0.25px solid #ccc;
+  border-left: 0.25px solid #ccc;
+  border-right: 0.25px solid #ccc;
+}

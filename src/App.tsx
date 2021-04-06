@@ -28,15 +28,6 @@ const App: React.FC = () => {
         }
     }, [authenticated]);
 
-    const loggedOutRoutes = [
-        <Route key='login' path='/login' component={LoginPage} />,
-        <Route key='register' path='/register' component={RegisterPage} />,
-        <Route key='activate' path='/activate/:token' component={ActivateAccount} />,
-        <Route key='forgot-password' path='/forgot-password' component={ForgotPasswordPage} />
-    ];
-
-    const loggedInRoutes = [<Route key='account' path='/account' component={AccountInfo} />];
-
     return (
         <ThemeProvider theme={theme}>
             <ReactNotification />
@@ -44,8 +35,12 @@ const App: React.FC = () => {
                 <Suspense fallback={<Spinner />}>
                     <BrowserRouter>
                         <Switch>
-                            {[!authenticated && loggedOutRoutes, authenticated && loggedInRoutes]}
-                            <Route path='/404' component={ErrorPage} />
+                            <Route key='account' path='/account' component={AccountInfo} />
+                            <Route key='login' path='/login' component={LoginPage} />,
+                            <Route key='register' path='/register' component={RegisterPage} />,
+                            <Route key='activate' path='/activate/:token' component={ActivateAccount} />,
+                            <Route key='forgot-password' path='/forgot-password' component={ForgotPasswordPage} />
+                            <Route key='404' path='/404' component={ErrorPage} />
                             <Redirect to='/404' />
                         </Switch>
                     </BrowserRouter>
