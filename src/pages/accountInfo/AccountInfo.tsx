@@ -62,7 +62,17 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const AccountInfo: React.FC = () => {
     const classes = useStyles();
-    const { username, control, errors, onSubmit } = useAccountInfo();
+    const {
+        username,
+        control,
+        errors,
+        onSubmit,
+        handleCapture,
+        uploadRef,
+        handleUpload,
+        profilePicture,
+        removePhoto
+    } = useAccountInfo();
 
     return (
         <Container component='div' maxWidth='sm'>
@@ -80,14 +90,33 @@ const AccountInfo: React.FC = () => {
                             <Grid item xs={12} sm={12} className={classes.gridItem}>
                                 <InputLabel>Avatar</InputLabel>
                                 <Box className={classes.avatarHolder}>
-                                    <Avatar className={classes.largeAvatar}>{username}</Avatar>
+                                    <Avatar className={classes.largeAvatar} src={profilePicture} alt={username}>
+                                        {!profilePicture ? username : null}
+                                    </Avatar>
+                                    <input
+                                        accept='image/*'
+                                        hidden
+                                        id='btn-upload'
+                                        type='file'
+                                        ref={uploadRef}
+                                        onChange={handleCapture}
+                                    />
                                     <Tooltip title='Click to change profile picture!' placement='top'>
-                                        <Button className={classes.uploadButton} variant='contained'>
+                                        <Button
+                                            className={classes.uploadButton}
+                                            variant='contained'
+                                            onClick={handleUpload}
+                                        >
                                             Upload
                                         </Button>
                                     </Tooltip>
+
                                     <Tooltip title='Click to remove profile picture!' placement='top'>
-                                        <Button className={classes.removeButton} variant='contained'>
+                                        <Button
+                                            className={classes.removeButton}
+                                            variant='contained'
+                                            onClick={removePhoto}
+                                        >
                                             Remove
                                         </Button>
                                     </Tooltip>

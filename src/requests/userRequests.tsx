@@ -1,4 +1,5 @@
-import Axios, { AxiosPromise } from 'axios';
+import { AxiosPromise } from 'axios';
+import axiosInstance from './AxiosInstance';
 import { domain } from '../constants/config';
 
 export interface LoginInterface {
@@ -30,6 +31,7 @@ export interface UserInfoInterface {
     email: string;
     id: number;
     is_active: boolean;
+    profile_pic: string;
 }
 
 export default class UserRequests {
@@ -40,29 +42,31 @@ export default class UserRequests {
     static logoutEndpoint = `${domain}api/revoke`;
     static forgotPasswordEndpoint = `${domain}api/forgot_password`;
     static loggedUserEndpoint = `${domain}api/users/me`;
+    static uploadPhotoEndpoint = `${domain}api/users/upload_photo`;
+    static removePhotoEndpoint = `${domain}api/users/remove_photo`;
 
     static login = (data: LoginInterface): AxiosPromise => {
-        return Axios.post(UserRequests.loginEndpoint, data);
+        return axiosInstance.post(UserRequests.loginEndpoint, data);
     };
 
     static register = (data: RegisterInterface): AxiosPromise => {
-        return Axios.post(UserRequests.registerEndpoint, data);
+        return axiosInstance.post(UserRequests.registerEndpoint, data);
     };
 
     static forgotPasswordEmail = (data: ForgotPasswordEmailInterface): AxiosPromise => {
-        return Axios.post(UserRequests.forgotPasswordEndpoint, data);
+        return axiosInstance.post(UserRequests.forgotPasswordEndpoint, data);
     };
 
     static verifyResetPasswordToken = (token: string): AxiosPromise => {
-        return Axios.get(`${UserRequests.forgotPasswordEndpoint}?token=${token}`);
+        return axiosInstance.get(`${UserRequests.forgotPasswordEndpoint}?token=${token}`);
     };
 
     static resetPassword = (data: ResetPasswordInterface): AxiosPromise => {
-        return Axios.put(UserRequests.forgotPasswordEndpoint, data);
+        return axiosInstance.put(UserRequests.forgotPasswordEndpoint, data);
     };
 
     static confirmAccount = (token: string): AxiosPromise => {
-        return Axios.get(`${UserRequests.confirmAccountEndpoint}?token=${token}`);
+        return axiosInstance.get(`${UserRequests.confirmAccountEndpoint}?token=${token}`);
     };
 
     static getLoggedUser = (): AxiosPromise => {
@@ -70,7 +74,7 @@ export default class UserRequests {
         const headers = {
             Authorization: `Bearer ${token}`
         };
-        return Axios.get(UserRequests.loggedUserEndpoint, { headers: headers });
+        return axiosInstance.get(UserRequests.loggedUserEndpoint, { headers: headers });
     };
 
     static updateUserInfo = (userInfo: UserInfoInterface): AxiosPromise => {
@@ -78,6 +82,22 @@ export default class UserRequests {
         const headers = {
             Authorization: `Bearer ${token}`
         };
-        return Axios.put(`${UserRequests.baseEndpoint}/${userInfo.id}`, userInfo, { headers: headers });
+        return axiosInstance.put(`${UserRequests.baseEndpoint}/${userInfo.id}`, userInfo, { headers: headers });
+    };
+
+    static uploadPhoto = (data: any): AxiosPromise => {
+        const token = localStorage.getItem('token');
+        const headers = {
+            Authorization: `Bearer ${token}`
+        };
+        return axiosInstance.put(`${UserRequests.uploadPhotoEndpoint}`, data, { headers: headers });
+    };
+
+    static removePhoto = (): AxiosPromise => {
+        const token = localStorage.getItem('token');
+        const headers = {
+            Authorization: `Bearer ${token}`
+        };
+        return axiosInstance.put(`${UserRequests.removePhotoEndpoint}`, null, { headers: headers });
     };
 }
