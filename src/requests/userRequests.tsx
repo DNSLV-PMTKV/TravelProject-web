@@ -34,16 +34,21 @@ export interface UserInfoInterface {
     profile_pic: string;
 }
 
+export interface ChangePasswordInterface {
+    old_password: string;
+    new_password: string;
+    re_password: string;
+}
+
 export default class UserRequests {
     static baseEndpoint = `${domain}api/users`;
-    static loginEndpoint = `${domain}api/login`;
-    static registerEndpoint = `${domain}api/register`;
-    static confirmAccountEndpoint = `${domain}api/confirm`;
-    static logoutEndpoint = `${domain}api/revoke`;
-    static forgotPasswordEndpoint = `${domain}api/forgot_password`;
-    static loggedUserEndpoint = `${domain}api/users/me`;
-    static uploadPhotoEndpoint = `${domain}api/users/upload_photo`;
-    static removePhotoEndpoint = `${domain}api/users/remove_photo`;
+    static loginEndpoint = `${UserRequests.baseEndpoint}/login`;
+    static registerEndpoint = `${UserRequests.baseEndpoint}/register`;
+    static confirmAccountEndpoint = `${UserRequests.baseEndpoint}/confirm`;
+    static forgotPasswordEndpoint = `${UserRequests.baseEndpoint}/forgot_password`;
+    static loggedUserEndpoint = `${UserRequests.baseEndpoint}/me`;
+    static changePhotoEndpoint = `${UserRequests.baseEndpoint}/change_photo`;
+    static changePasswordEndpoint = `${UserRequests.baseEndpoint}/change_password`;
 
     static login = (data: LoginInterface): AxiosPromise => {
         return axiosInstance.post(UserRequests.loginEndpoint, data);
@@ -85,19 +90,19 @@ export default class UserRequests {
         return axiosInstance.put(`${UserRequests.baseEndpoint}/${userInfo.id}`, userInfo, { headers: headers });
     };
 
-    static uploadPhoto = (data: any): AxiosPromise => {
+    static changeProfilePicture = (data: FormData): AxiosPromise => {
         const token = localStorage.getItem('token');
         const headers = {
             Authorization: `Bearer ${token}`
         };
-        return axiosInstance.put(`${UserRequests.uploadPhotoEndpoint}`, data, { headers: headers });
+        return axiosInstance.put(`${UserRequests.changePhotoEndpoint}`, data, { headers: headers });
     };
 
-    static removePhoto = (): AxiosPromise => {
+    static changePassword = (data: ChangePasswordInterface): AxiosPromise => {
         const token = localStorage.getItem('token');
         const headers = {
             Authorization: `Bearer ${token}`
         };
-        return axiosInstance.put(`${UserRequests.removePhotoEndpoint}`, null, { headers: headers });
+        return axiosInstance.put(`${UserRequests.changePasswordEndpoint}`, data, { headers: headers });
     };
 }

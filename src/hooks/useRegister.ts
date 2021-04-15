@@ -1,7 +1,6 @@
 import { AxiosError } from 'axios';
 import { useState } from 'react';
 import { Control, DeepMap, FieldError, SubmitHandler, useForm } from 'react-hook-form';
-import { emailRegex } from '../constants/regex';
 import UserRequests from '../requests/userRequests';
 
 type FormValues = {

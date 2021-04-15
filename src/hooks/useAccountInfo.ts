@@ -1,5 +1,5 @@
-import { SyntheticEvent, useEffect, useRef, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { RefObject, SyntheticEvent, useEffect, useRef, useState } from 'react';
+import { Control, DeepMap, FieldError, SubmitHandler, useForm } from 'react-hook-form';
 import { domain } from '../constants/config';
 import { makeErrorNotification, makeSuccessNotification } from '../helpers/notifications';
 import UserRequests, { UserInfoInterface } from '../requests/userRequests';
@@ -13,7 +13,19 @@ const emptyValuesUserData: UserInfoInterface = {
     profile_pic: ''
 };
 
-const useAccountInfo = () => {
+interface AccountInfoReturnInterface {
+    username: string;
+    profilePicture: string;
+    control: Control<UserInfoInterface>;
+    errors: DeepMap<UserInfoInterface, FieldError>;
+    uploadRef: RefObject<HTMLInputElement>;
+    onSubmit: () => void;
+    handleCapture: (event: SyntheticEvent<EventTarget>) => void;
+    handleUpload: () => void;
+    removePhoto: () => void;
+}
+
+const useAccountInfo = (): AccountInfoReturnInterface => {
     const { handleSubmit, errors, control, setValue } = useForm<UserInfoInterface>({
         mode: 'onSubmit',
         reValidateMode: 'onSubmit',
@@ -21,6 +33,7 @@ const useAccountInfo = () => {
     });
 
     const [username, setUsername] = useState('');
+    const [id, setId] = useState(-1);
     const [profilePicture, setProfilePicture] = useState('');
     const uploadRef = useRef<HTMLInputElement>(null);
 
@@ -42,8 +55,8 @@ const useAccountInfo = () => {
         setValue('first_name', data.first_name);
         setValue('last_name', data.last_name);
         setValue('email', data.email);
-        setValue('id', data.id);
-        setUsername(`${data.first_name.charAt(0)} ${data.last_name.charAt(0)}`);
+        setId(data.id);
+        setUsername(`${data.first_name.charAt(0).toUpperCase()}${data.last_name.charAt(0).toUpperCase()}`);
         setProfilePicture(urlProfilePicture(data.profile_pic));
     };
 
@@ -59,14 +72,18 @@ const useAccountInfo = () => {
         fileReader.onload = () => {
             const data = new FormData();
             data.append('profile_pic', file);
-            UserRequests.uploadPhoto(data).then((response) => {
+            UserRequests.changeProfilePicture(data).then((response) => {
+                makeSuccessNotification('Successfully updated your profile picture.');
                 setProfilePicture(urlProfilePicture(response.data['profile_pic']));
             });
         };
     };
 
     const removePhoto = () => {
-        UserRequests.removePhoto().then((response) => {
+        const data = new FormData();
+        data.append('profile_pic', '');
+        UserRequests.changeProfilePicture(data).then((response) => {
+            makeSuccessNotification('Successfully removed your profile picture.');
             setProfilePicture(urlProfilePicture(response.data['profile_pic']));
         });
     };
@@ -77,15 +94,15 @@ const useAccountInfo = () => {
     };
 
     const onSubmit: SubmitHandler<UserInfoInterface> = (data) => {
-        console.log(`data`, data);
-        // UserRequests.updateUserInfo(data)
-        //     .then((res) => {
-        //         makeSuccessNotification('Successfully updated account information.');
-        //         setUser(res.data);
-        //     })
-        //     .catch((err) => {
-        //         console.error(err);
-        //     });
+        data.id = id;
+        UserRequests.updateUserInfo(data)
+            .then((res) => {
+                makeSuccessNotification('Successfully updated account information.');
+                setFormData(res.data);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
     };
 
     return {

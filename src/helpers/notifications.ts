@@ -3,7 +3,7 @@ import { store } from 'react-notifications-component';
 export const makeErrorNotification = (message: string): void => {
     store.addNotification({
         message: message,
-        title: 'Success!',
+        title: 'Failed!',
         type: 'danger',
         insert: 'top',
         container: 'top-right',
@@ -28,7 +28,7 @@ export const makeSuccessNotification = (message: string): void => {
         animationIn: ['animate__animated', 'animate__fadeIn'],
         animationOut: ['animate__animated', 'animate__fadeOut'],
         dismiss: {
-            duration: 99999999,
+            duration: 5000,
             onScreen: true,
             pauseOnHover: true,
             showIcon: true

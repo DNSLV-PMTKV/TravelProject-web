@@ -19,6 +19,8 @@ import { FormErrors } from '../../components/FormErrors/FormErrors';
 import { ControllTextInput } from '../../components/TextInput/TextInput';
 import { validateEmail } from '../../helpers/validators';
 import useAccountInfo from '../../hooks/useAccountInfo';
+import useChangePassword from '../../hooks/useChangePassword';
+import ChangePasswordModal from '../../modules/ChangePasswordModal';
 import { blue } from '../../theme';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -56,6 +58,15 @@ const useStyles = makeStyles((theme: Theme) =>
             float: 'right',
             lineHeight: 1,
             minWidth: 100
+        },
+        changePasswordButton: {
+            lineHeight: 1,
+            minWidth: 120,
+            backgroundColor: 'transparent',
+            border: '1px solid rgb(256 0 0 / 50%)',
+            '& .MuiButton-label': {
+                color: blue
+            }
         }
     })
 );
@@ -74,6 +85,15 @@ const AccountInfo: React.FC = () => {
         removePhoto
     } = useAccountInfo();
 
+    const {
+        changePassowordErrors,
+        changePasswordControl,
+        setChangePasswordModalOpen,
+        changePasswordModalOpen,
+        changePasswordSubmit,
+        closeModal
+    } = useChangePassword();
+
     return (
         <Container component='div' maxWidth='sm'>
             <Card raised className='animate__animated animate__fadeIn animate__slow'>
@@ -90,7 +110,7 @@ const AccountInfo: React.FC = () => {
                             <Grid item xs={12} sm={12} className={classes.gridItem}>
                                 <InputLabel>Avatar</InputLabel>
                                 <Box className={classes.avatarHolder}>
-                                    <Avatar className={classes.largeAvatar} src={profilePicture} alt={username}>
+                                    <Avatar className={classes.largeAvatar} src={profilePicture}>
                                         {!profilePicture ? username : null}
                                     </Avatar>
                                     <input
@@ -163,6 +183,14 @@ const AccountInfo: React.FC = () => {
                             </Grid>
                             <Grid item xs={12} className={classes.gridItem}>
                                 <Button
+                                    className={classes.changePasswordButton}
+                                    type='button'
+                                    variant='contained'
+                                    onClick={() => setChangePasswordModalOpen(true)}
+                                >
+                                    Change password
+                                </Button>
+                                <Button
                                     className={classes.saveButton}
                                     type='submit'
                                     variant='contained'
@@ -176,6 +204,13 @@ const AccountInfo: React.FC = () => {
                 </CardContent>
             </Card>
             <FormErrors errors={errors} />
+            <ChangePasswordModal
+                control={changePasswordControl}
+                errors={changePassowordErrors}
+                open={changePasswordModalOpen}
+                onSubmit={changePasswordSubmit}
+                closeModal={closeModal}
+            />
         </Container>
     );
 };

@@ -1,4 +1,5 @@
 import { createMuiTheme } from '@material-ui/core/styles';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import _ from '@material-ui/lab/themeAugmentation';
 
 export const black = '#303030';

@@ -4,6 +4,7 @@ import { domain } from '../constants/config';
 const axiosInstance: AxiosInstance = axios.create();
 
 let isRefreshing = false;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let failedQueue: any[] = [];
 
 const processQueue = (error: AxiosError | null, token = null) => {
@@ -24,7 +25,8 @@ axiosInstance.interceptors.response.use(
     },
     (error: AxiosError) => {
         const originalRequest = error.config;
-        if (error.response?.status === 401) {
+        const url = error.config.url;
+        if (error.response?.status === 401 && url !== `${domain}api/users/login`) {
             if (isRefreshing) {
                 return new Promise((resolve, reject) => {
                     failedQueue.push({ resolve, reject });
