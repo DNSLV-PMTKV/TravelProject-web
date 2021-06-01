@@ -4,11 +4,17 @@ import Link from '@material-ui/core/Link';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import { ExitToApp } from '@material-ui/icons';
 import AccountBoxRoundedIcon from '@material-ui/icons/AccountBoxRounded';
 import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
 import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
 import TelegramIcon from '@material-ui/icons/Telegram';
 import React, { Fragment, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import LayoutMenu from '../../components/LayoutMenu/LayoutMenu';
+import { setAuthenticated } from '../../redux/users/userActions';
+import UserRequests from '../../requests/userRequests';
 import { mobileBreak, pink } from '../../theme';
 
 interface Props {
@@ -79,6 +85,8 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const Layout: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
+    const history = useHistory();
+    const dispatch = useDispatch();
     let location = window.location.pathname;
 
     const [selectedPage, setSelectedPage] = React.useState('/');
@@ -88,9 +96,19 @@ export const Layout: React.FC<Props> = (props: Props) => {
         setSelectedPage(location);
     }, [selectedPage]);
 
-    const loggedUserOptions = [
+    const handleLogoutClick = () => {
+        UserRequests.logout().then(() => {
+            history.push('/login');
+            dispatch(setAuthenticated(false));
+            localStorage.removeItem('user_email');
+            localStorage.removeItem('token');
+            localStorage.removeItem('user_id');
+        });
+    };
+
+    const loggedOutOptions = [
         <BottomNavigationAction
-            key='logged1'
+            key='loggedOut1'
             label='Login'
             value='/login'
             icon={<AccountCircleRoundedIcon className={classes.mobileSetionIcon} />}
@@ -98,12 +116,30 @@ export const Layout: React.FC<Props> = (props: Props) => {
             href='/login'
         />,
         <BottomNavigationAction
-            key='logged2'
+            key='loggedOut2'
             label='Register'
             value='/register'
             icon={<AccountBoxRoundedIcon className={classes.mobileSetionIcon} />}
             component={Link}
             href='/register'
+        />
+    ];
+
+    const loggedOptions = [
+        <BottomNavigationAction
+            key='logged1'
+            label='Account'
+            value='/acount'
+            icon={<AccountCircleRoundedIcon className={classes.mobileSetionIcon} />}
+            component={Link}
+            href='/account'
+        />,
+        <BottomNavigationAction
+            key='logged2'
+            label='Logout'
+            value='/acount'
+            icon={<ExitToApp className={classes.mobileSetionIcon} />}
+            onClick={handleLogoutClick}
         />
     ];
 
@@ -123,26 +159,14 @@ export const Layout: React.FC<Props> = (props: Props) => {
                 component={Link}
                 href='/'
             />
-            {props.authenticated ? (
-                <BottomNavigationAction
-                    label='Account'
-                    value='/acount'
-                    icon={<AccountCircleRoundedIcon className={classes.mobileSetionIcon} />}
-                    component={Link}
-                    href='/account'
-                />
-            ) : (
-                loggedUserOptions
-            )}
+            {props.authenticated ? loggedOptions : loggedOutOptions}
         </BottomNavigation>
     );
 
     const renderDesktopMenu = (
         <div className={classes.sectionDesktop}>
             {props.authenticated ? (
-                <Link href='/account' className={classes.rightButton}>
-                    Account
-                </Link>
+                <LayoutMenu />
             ) : (
                 <Fragment>
                     <Link href='/login' className={classes.leftButton}>

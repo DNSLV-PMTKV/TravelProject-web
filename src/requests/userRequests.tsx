@@ -1,5 +1,5 @@
 import { AxiosPromise } from 'axios';
-import axiosInstance from './AxiosInstance';
+import axios from './AxiosInstance';
 import { domain } from '../constants/config';
 
 export interface LoginInterface {
@@ -43,6 +43,7 @@ export interface ChangePasswordInterface {
 export default class UserRequests {
     static baseEndpoint = `${domain}api/users`;
     static loginEndpoint = `${UserRequests.baseEndpoint}/login`;
+    static logoutEndpoint = `${UserRequests.baseEndpoint}/logout`;
     static registerEndpoint = `${UserRequests.baseEndpoint}/register`;
     static confirmAccountEndpoint = `${UserRequests.baseEndpoint}/confirm`;
     static forgotPasswordEndpoint = `${UserRequests.baseEndpoint}/forgot_password`;
@@ -51,58 +52,66 @@ export default class UserRequests {
     static changePasswordEndpoint = `${UserRequests.baseEndpoint}/change_password`;
 
     static login = (data: LoginInterface): AxiosPromise => {
-        return axiosInstance.post(UserRequests.loginEndpoint, data);
+        return axios.post(UserRequests.loginEndpoint, data);
     };
 
     static register = (data: RegisterInterface): AxiosPromise => {
-        return axiosInstance.post(UserRequests.registerEndpoint, data);
+        return axios.post(UserRequests.registerEndpoint, data);
     };
 
     static forgotPasswordEmail = (data: ForgotPasswordEmailInterface): AxiosPromise => {
-        return axiosInstance.post(UserRequests.forgotPasswordEndpoint, data);
+        return axios.post(UserRequests.forgotPasswordEndpoint, data);
     };
 
     static verifyResetPasswordToken = (token: string): AxiosPromise => {
-        return axiosInstance.get(`${UserRequests.forgotPasswordEndpoint}?token=${token}`);
+        return axios.get(`${UserRequests.forgotPasswordEndpoint}?token=${token}`);
     };
 
     static resetPassword = (data: ResetPasswordInterface): AxiosPromise => {
-        return axiosInstance.put(UserRequests.forgotPasswordEndpoint, data);
+        return axios.put(UserRequests.forgotPasswordEndpoint, data);
     };
 
     static confirmAccount = (token: string): AxiosPromise => {
-        return axiosInstance.get(`${UserRequests.confirmAccountEndpoint}?token=${token}`);
+        return axios.get(`${UserRequests.confirmAccountEndpoint}?token=${token}`);
     };
 
     static getLoggedUser = (): AxiosPromise => {
         const token = localStorage.getItem('token');
         const headers = {
-            Authorization: `Bearer ${token}`
+            Authorization: `Token ${token}`
         };
-        return axiosInstance.get(UserRequests.loggedUserEndpoint, { headers: headers });
+        return axios.get(UserRequests.loggedUserEndpoint, { headers: headers });
     };
 
     static updateUserInfo = (userInfo: UserInfoInterface): AxiosPromise => {
         const token = localStorage.getItem('token');
         const headers = {
-            Authorization: `Bearer ${token}`
+            Authorization: `Token ${token}`
         };
-        return axiosInstance.put(`${UserRequests.baseEndpoint}/${userInfo.id}`, userInfo, { headers: headers });
+        return axios.put(`${UserRequests.baseEndpoint}/${userInfo.id}`, userInfo, { headers: headers });
     };
 
     static changeProfilePicture = (data: FormData): AxiosPromise => {
         const token = localStorage.getItem('token');
         const headers = {
-            Authorization: `Bearer ${token}`
+            Authorization: `Token ${token}`
         };
-        return axiosInstance.put(`${UserRequests.changePhotoEndpoint}`, data, { headers: headers });
+        return axios.put(UserRequests.changePhotoEndpoint, data, { headers: headers });
     };
 
     static changePassword = (data: ChangePasswordInterface): AxiosPromise => {
         const token = localStorage.getItem('token');
         const headers = {
-            Authorization: `Bearer ${token}`
+            Authorization: `Token ${token}`
         };
-        return axiosInstance.put(`${UserRequests.changePasswordEndpoint}`, data, { headers: headers });
+        return axios.put(UserRequests.changePasswordEndpoint, data, { headers: headers });
+    };
+
+    static logout = (): AxiosPromise => {
+        const token = localStorage.getItem('token');
+        const headers = {
+            Authorization: `Token ${token}`
+        };
+        return axios.get(UserRequests.logoutEndpoint, { headers: headers });
     };
 }

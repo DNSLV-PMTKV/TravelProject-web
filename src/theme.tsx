@@ -4,7 +4,9 @@ import _ from '@material-ui/lab/themeAugmentation';
 
 export const black = '#303030';
 export const pink = '#ffc0cb';
+export const textPink = '#c6677a';
 export const lightGray = '#eee';
+export const textGray = '#545454';
 export const blue = '#355c7d';
 // const white = '#f8f5fb';
 
@@ -20,13 +22,17 @@ export const theme = createMuiTheme({
         }
     },
     typography: {
+        subtitle2: {
+            color: textGray
+        },
         h2: {
-            color: black,
+            color: textGray,
             fontSize: '2.5rem',
             fontWeight: 900,
             lineHeight: 1
         },
-        fontFamily: 'Roboto'
+        fontFamily:
+            '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol",sans-serif'
     },
     overrides: {
         MuiAppBar: {
@@ -53,11 +59,13 @@ export const theme = createMuiTheme({
             root: {
                 padding: '.75rem',
                 margin: '12px 0',
+                backgroundColor: textPink,
+                border: `1px solid ${textPink}`,
                 borderRadius: '8px',
                 textTransform: 'none'
             },
             label: {
-                color: black,
+                color: 'white',
                 fontWeight: 'inherit'
             },
             fullWidth: {
@@ -69,9 +77,9 @@ export const theme = createMuiTheme({
                 margin: '12px auto'
             },
             containedPrimary: {
-                backgroundColor: pink,
+                backgroundColor: textPink,
                 '&:hover': {
-                    backgroundColor: pink,
+                    backgroundColor: textPink,
                     filter: 'brightness(90%)'
                 }
             }
@@ -81,7 +89,7 @@ export const theme = createMuiTheme({
                 fontFamily: 'Helvetica',
                 fontWeight: 600,
                 fontSize: 15,
-                color: black
+                color: textGray
             }
         },
         MuiTextField: {

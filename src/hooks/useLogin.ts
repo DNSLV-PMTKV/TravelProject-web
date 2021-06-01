@@ -28,8 +28,9 @@ const useLogin = (): LoginReturnInterface => {
     const onSubmit: SubmitHandler<FormValues> = (data) => {
         UserRequests.login(data)
             .then((response) => {
-                localStorage.setItem('token', response.data.access);
-                localStorage.setItem('refresh', response.data.refresh);
+                localStorage.setItem('token', response.data.token);
+                localStorage.setItem('user_email', response.data.user_email);
+                localStorage.setItem('user_id', response.data.user_id);
                 dispatch(setAuthenticated(true));
             })
             .then(() => {

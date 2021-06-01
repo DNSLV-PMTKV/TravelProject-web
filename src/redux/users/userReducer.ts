@@ -1,16 +1,14 @@
-import { setAuthenticated, setUsername, SET_AUTHENTICATED, SET_USERNAME } from './userActions';
+import { setAuthenticated, SET_AUTHENTICATED } from './userActions';
 
 export interface UserState {
     isAuthenticated: boolean;
-    username: string;
 }
 
 export const InitialState: UserState = {
-    isAuthenticated: false,
-    username: ''
+    isAuthenticated: false
 };
 
-type Action = setAuthenticated | setUsername;
+type Action = setAuthenticated;
 
 export const userReducer = (state: UserState = InitialState, action: Action): UserState => {
     switch (action.type) {
@@ -18,11 +16,6 @@ export const userReducer = (state: UserState = InitialState, action: Action): Us
             return {
                 ...state,
                 isAuthenticated: action.value
-            };
-        case SET_USERNAME:
-            return {
-                ...state,
-                username: action.value
             };
         default:
             return state;

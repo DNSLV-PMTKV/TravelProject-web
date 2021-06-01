@@ -21,7 +21,7 @@ import { validateEmail } from '../../helpers/validators';
 import useAccountInfo from '../../hooks/useAccountInfo';
 import useChangePassword from '../../hooks/useChangePassword';
 import ChangePasswordModal from '../../modules/ChangePasswordModal';
-import { blue } from '../../theme';
+import { textPink } from '../../theme';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -41,8 +41,8 @@ const useStyles = makeStyles((theme: Theme) =>
             margin: '20px 5px 20px 10px',
             backgroundColor: 'transparent',
             border: '1px solid rgb(0 0 0 / 20%)',
-            '& .MuiButton-label': {
-                color: blue
+            '& > .MuiButton-label': {
+                color: textPink
             }
         },
         removeButton: {
@@ -50,8 +50,8 @@ const useStyles = makeStyles((theme: Theme) =>
             margin: '20px 0px',
             backgroundColor: 'transparent',
             border: '1px solid rgb(0 0 0 / 20%)',
-            '& .MuiButton-label': {
-                color: blue
+            '& > .MuiButton-label': {
+                color: textPink
             }
         },
         saveButton: {
@@ -64,8 +64,8 @@ const useStyles = makeStyles((theme: Theme) =>
             minWidth: 120,
             backgroundColor: 'transparent',
             border: '1px solid rgb(256 0 0 / 50%)',
-            '& .MuiButton-label': {
-                color: blue
+            '& > .MuiButton-label': {
+                color: textPink
             }
         }
     })
@@ -73,17 +73,8 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const AccountInfo: React.FC = () => {
     const classes = useStyles();
-    const {
-        username,
-        control,
-        errors,
-        onSubmit,
-        handleCapture,
-        uploadRef,
-        handleUpload,
-        profilePicture,
-        removePhoto
-    } = useAccountInfo();
+    const { username, control, errors, onSubmit, handleCapture, uploadRef, handleUpload, profilePicture, removePhoto } =
+        useAccountInfo();
 
     const {
         changePassowordErrors,
@@ -121,25 +112,38 @@ const AccountInfo: React.FC = () => {
                                         ref={uploadRef}
                                         onChange={handleCapture}
                                     />
-                                    <Tooltip title='Click to change profile picture!' placement='top'>
-                                        <Button
-                                            className={classes.uploadButton}
-                                            variant='contained'
-                                            onClick={handleUpload}
-                                        >
-                                            Upload
-                                        </Button>
-                                    </Tooltip>
-
-                                    <Tooltip title='Click to remove profile picture!' placement='top'>
-                                        <Button
-                                            className={classes.removeButton}
-                                            variant='contained'
-                                            onClick={removePhoto}
-                                        >
-                                            Remove
-                                        </Button>
-                                    </Tooltip>
+                                    {!profilePicture ? (
+                                        <Tooltip title='Click to upload profile picture!' placement='top'>
+                                            <Button
+                                                className={classes.uploadButton}
+                                                variant='contained'
+                                                onClick={handleUpload}
+                                            >
+                                                Upload
+                                            </Button>
+                                        </Tooltip>
+                                    ) : (
+                                        <>
+                                            <Tooltip title='Click to change profile picture!' placement='top'>
+                                                <Button
+                                                    className={classes.uploadButton}
+                                                    variant='contained'
+                                                    onClick={handleUpload}
+                                                >
+                                                    Change
+                                                </Button>
+                                            </Tooltip>
+                                            <Tooltip title='Click to remove profile picture!' placement='top'>
+                                                <Button
+                                                    className={classes.removeButton}
+                                                    variant='contained'
+                                                    onClick={removePhoto}
+                                                >
+                                                    Remove
+                                                </Button>
+                                            </Tooltip>
+                                        </>
+                                    )}
                                 </Box>
                             </Grid>
                             <Grid item xs={12} sm={12} className={classes.gridItem}>
